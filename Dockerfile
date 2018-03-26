@@ -2,8 +2,8 @@ FROM alpine
 
 RUN mkdir -p /tmp/build/workspace
 
-RUN apk --no-cache add git docker curl make
+RUN apk --no-cache add git curl make
 
-RUN curl -L https://github.com/docker/compose/releases/download/1.20.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose \
- && chmod +x /usr/local/bin/docker-compose
+COPY --from=docker:17.12 /usr/local/bin/docker /bin/docker
+COPY --from=docker/compose:1.20.1 /usr/local/bin/docker-compose /usr/local/bin/docker-compose
 
