@@ -1,9 +1,14 @@
 FROM alpine
 
-RUN mkdir -p /tmp/build/workspace
+RUN mkdir -p /tmp/workspace \
+ && mkdir -p /tmp/logs
 
-RUN apk --no-cache add git docker curl make
+RUN apk --no-cache add git curl make
 
-RUN curl -L https://github.com/docker/compose/releases/download/1.20.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose \
- && chmod +x /usr/local/bin/docker-compose
+COPY --from=docker:17.12 /usr/local/bin/docker /bin/docker
+
+# Docker-compose 
+RUN apk add --no-cache python2
+RUN apk add --no-cache --virtual build-deps py-pip
+RUN pip install --trusted-host pypi.python.org docker-compose
 
