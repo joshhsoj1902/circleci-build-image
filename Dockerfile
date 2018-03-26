@@ -1,6 +1,7 @@
 FROM alpine
 
-RUN mkdir -p /tmp/build/workspace
+RUN mkdir -p /tmp/workspace \
+ && mkdir -p /tmp/logs
 
 RUN apk --no-cache add git curl make
 
