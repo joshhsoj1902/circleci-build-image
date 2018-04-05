@@ -7,6 +7,24 @@ RUN apk --no-cache add git curl make bash
 
 COPY --from=docker:17.12 /usr/local/bin/docker /bin/docker
 
+
+# Gcloud
+ENV CLOUD_SDK_VERSION 195.0.0
+ENV PATH /google-cloud-sdk/bin:$PATH
+RUN apk --no-cache add \
+        python \
+        py-crcmod \
+        libc6-compat \
+        openssh-client
+RUN curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
+    tar xzf google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
+    rm google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
+    ln -s /lib /lib64 && \
+    gcloud config set core/disable_usage_reporting true && \
+    gcloud config set component_manager/disable_update_check true && \
+    gcloud config set metrics/environment github_docker_image && \
+    gcloud --version
+
 # Docker-compose 
 RUN apk add --no-cache python2
 RUN apk add --no-cache --virtual build-deps py-pip
