@@ -3,12 +3,12 @@ FROM alpine
 RUN mkdir -p /tmp/workspace \
  && mkdir -p /tmp/logs
 
-RUN apk --no-cache add git curl make bash
+RUN apk --no-cache add git curl make bash openssh
 
 COPY --from=docker:17.12 /usr/local/bin/docker /bin/docker
 
 
-# Gcloud
+# Gcloud https://github.com/GoogleCloudPlatform/cloud-sdk-docker/blob/master/alpine/Dockerfile
 ENV CLOUD_SDK_VERSION 195.0.0
 ENV PATH /google-cloud-sdk/bin:$PATH
 RUN apk --no-cache add \
