@@ -3,7 +3,7 @@ FROM alpine
 RUN mkdir -p /tmp/workspace \
  && mkdir -p /tmp/logs
 
-RUN apk --no-cache add git curl make bash openssh
+RUN apk --no-cache add git curl make bash openssh sudo
 
 COPY --from=docker:17.12 /usr/local/bin/docker /bin/docker
 
