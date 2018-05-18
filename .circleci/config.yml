@@ -1,9 +1,9 @@
 defaults: &defaults 
-    working_directory: ~/ogp
-    machine: true
-    environment:
-      DOCKER_URL: https://download.docker.com/linux/static/edge/x86_64/docker-17.05.0-ce.tgz
-      DOCKER_COMPOSE_URL: https://github.com/docker/compose/releases/download/1.13.0/docker-compose-Linux-x86_64
+    working_directory: ~/build
+    docker: 
+      - image: joshhsoj1902/circleci-build-image:1.0.3
+remote_docker_version: &remote_docker_version
+    version: 17.11.0-ce
 
 version: 2
 jobs:
@@ -11,11 +11,8 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run:
-          name: Upgrade Docker
-          command: |
-            curl -sSL $DOCKER_URL | sudo tar -xz --strip-components=1 -C /usr/bin/
-            sudo service docker restart
+      - setup_remote_docker:
+          <<: *remote_docker_version
       - run:
           name: "Build image"
           command: |
