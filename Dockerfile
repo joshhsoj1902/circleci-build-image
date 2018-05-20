@@ -3,7 +3,7 @@ FROM alpine:3.7@sha256:8c03bb07a531c53ad7d0f6e7041b64d81f99c6e493cb39abba56d956b
 RUN mkdir -p /tmp/workspace \
  && mkdir -p /tmp/logs
 
-RUN apk --no-cache add git curl make bash openssh sudo
+RUN apk --no-cache add git curl make bash openssh sudo jq
 
 COPY --from=docker:17.12 /usr/local/bin/docker /bin/docker
 
