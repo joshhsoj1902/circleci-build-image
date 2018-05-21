@@ -9,7 +9,7 @@ COPY --from=docker:17.12 /usr/local/bin/docker /bin/docker
 
 
 # Gcloud https://github.com/GoogleCloudPlatform/cloud-sdk-docker/blob/master/alpine/Dockerfile
-ENV CLOUD_SDK_VERSION 200.0.0
+ENV CLOUD_SDK_VERSION 201.0.0
 ENV PATH /google-cloud-sdk/bin:$PATH
 RUN apk --no-cache add \
         python \
