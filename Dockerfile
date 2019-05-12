@@ -1,4 +1,4 @@
-FROM alpine:3.8@sha256:621c2f39f8133acb8e64023a94dbdf0d5ca81896102b9e57c0dc184cadaf5528
+FROM alpine:3.9@sha256:769fddc7cc2f0a1c35abb2f91432e8beecf83916c421420e6a6da9f8975464b6
 
 RUN mkdir -p /tmp/workspace \
  && mkdir -p /tmp/logs
