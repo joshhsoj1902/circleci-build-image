@@ -1,15 +1,17 @@
-FROM alpine:3.8@sha256:621c2f39f8133acb8e64023a94dbdf0d5ca81896102b9e57c0dc184cadaf5528
+FROM alpine:3.9
 
 RUN mkdir -p /tmp/workspace \
  && mkdir -p /tmp/logs
 
 RUN apk --no-cache add git curl make bash openssh sudo jq
 
-COPY --from=docker:17.12 /usr/local/bin/docker /bin/docker
+ENV DOCKER_BUILDKIT=1
+
+COPY --from=docker:18.09 /usr/local/bin/docker /bin/docker
 
 
 # Gcloud https://github.com/GoogleCloudPlatform/cloud-sdk-docker/blob/master/alpine/Dockerfile
-ENV CLOUD_SDK_VERSION 228.0.0
+ENV CLOUD_SDK_VERSION 250.0.0
 ENV PATH /google-cloud-sdk/bin:$PATH
 RUN apk --no-cache add \
         python \
@@ -26,8 +28,7 @@ RUN curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cl
     gcloud --version
 
 # Docker-compose 
-RUN apk add --no-cache python2
-RUN apk add --no-cache --virtual build-deps py-pip
+RUN apk add --no-cache gcc python-dev libffi-dev openssl-dev libc-dev make py-pip gcc
 RUN pip install --trusted-host pypi.python.org docker-compose
 
 RUN curl https://raw.githubusercontent.com/kadwanev/retry/master/retry -o /usr/local/bin/retry \
