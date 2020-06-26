@@ -7,13 +7,12 @@ RUN apk --no-cache add git curl make bash openssh sudo jq
 
 ENV DOCKER_BUILDKIT=1
 
-COPY --from=docker:18.09 /usr/local/bin/docker /bin/docker
+COPY --from=docker:19.03.11 /usr/local/bin/docker /bin/docker
 
 
 # Gcloud https://github.com/GoogleCloudPlatform/cloud-sdk-docker/blob/master/alpine/Dockerfile
 ENV CLOUD_SDK_VERSION 298.0.0
 ENV PATH /google-cloud-sdk/bin:$PATH
-COPY --from=static-docker-source /usr/local/bin/docker /usr/local/bin/docker
 RUN apk --no-cache add \
         curl \
         python3 \
