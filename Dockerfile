@@ -1,4 +1,4 @@
-FROM alpine:3.9
+FROM alpine:3.11
 
 RUN mkdir -p /tmp/workspace \
  && mkdir -p /tmp/logs
@@ -7,21 +7,25 @@ RUN apk --no-cache add git curl make bash openssh sudo jq
 
 ENV DOCKER_BUILDKIT=1
 
-COPY --from=docker:18.09 /usr/local/bin/docker /bin/docker
+COPY --from=docker:19.03.11 /usr/local/bin/docker /bin/docker
 
 
 # Gcloud https://github.com/GoogleCloudPlatform/cloud-sdk-docker/blob/master/alpine/Dockerfile
-ENV CLOUD_SDK_VERSION 250.0.0
+ENV CLOUD_SDK_VERSION 298.0.0
+ENV CLOUDSDK_PYTHON=python3
 ENV PATH /google-cloud-sdk/bin:$PATH
 RUN apk --no-cache add \
-        python \
-        py-crcmod \
+        curl \
+        python3 \
+        py3-crcmod \
+        bash \
         libc6-compat \
-        openssh-client
-RUN curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
+        openssh-client \
+        git \
+        gnupg \
+    && curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
     tar xzf google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
     rm google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
-    ln -s /lib /lib64 && \
     gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment github_docker_image && \
