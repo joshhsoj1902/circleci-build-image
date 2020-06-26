@@ -1,4 +1,4 @@
-FROM alpine:3.9
+FROM alpine:3.12
 
 RUN mkdir -p /tmp/workspace \
  && mkdir -p /tmp/logs
@@ -11,7 +11,7 @@ COPY --from=docker:18.09 /usr/local/bin/docker /bin/docker
 
 
 # Gcloud https://github.com/GoogleCloudPlatform/cloud-sdk-docker/blob/master/alpine/Dockerfile
-ENV CLOUD_SDK_VERSION 250.0.0
+ENV CLOUD_SDK_VERSION 298.0.0
 ENV PATH /google-cloud-sdk/bin:$PATH
 RUN apk --no-cache add \
         python \
