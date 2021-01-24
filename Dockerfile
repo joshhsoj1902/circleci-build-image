@@ -1,4 +1,4 @@
-FROM alpine:3.11
+FROM alpine:3.13
 
 RUN mkdir -p /tmp/workspace \
  && mkdir -p /tmp/logs
