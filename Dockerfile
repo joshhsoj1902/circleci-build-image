@@ -7,7 +7,7 @@ RUN apk --no-cache add git curl make bash openssh sudo jq
 
 ENV DOCKER_BUILDKIT=1
 
-COPY --from=docker:19.03.11 /usr/local/bin/docker /bin/docker
+COPY --from=docker:19.03.15 /usr/local/bin/docker /bin/docker
 
 
 # Gcloud https://github.com/GoogleCloudPlatform/cloud-sdk-docker/blob/master/alpine/Dockerfile
