@@ -44,12 +44,11 @@ jobs:
   publish-tag:
     executor: docker-publisher
     steps:
-      - attach_workspace:
-          at: /tmp/workspace
       - setup_remote_docker
       - run:
-          name: Load archived Docker image
-          command: docker load -i /tmp/workspace/image.tar
+          name: "Build image"
+          command: |
+            make build
       - run:
           name: Publish Docker Image to Docker Hub
           command: |
@@ -71,8 +70,6 @@ workflows:
               only: master
       # This doesn't work because the commit doesn't change after tagging, and while CCI knows the tag happened, it doesn't trigger a build.
       - publish-tag:
-          requires:
-            - build
           filters:
             tags:
               only: /^v.*/
