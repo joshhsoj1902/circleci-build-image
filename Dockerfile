@@ -23,6 +23,7 @@ ENV DOCKER_BUILDKIT=1
 
 COPY --from=docker /usr/local/bin/docker /bin/docker
 COPY --from=compose /usr/local/bin/docker-compose /bin/docker-compose
+COPY --from=docker/buildx-bin:latest /buildx /usr/libexec/docker/cli-plugins/docker-buildx
 COPY --from=google-cloud-sdk /google-cloud-sdk/bin/ /usr/local/bin/
 COPY --from=google-cloud-sdk /google-cloud-sdk/lib/ /usr/local/lib/
 COPY --from=google-cloud-sdk /google-cloud-sdk/platform/ /usr/local/platform/
