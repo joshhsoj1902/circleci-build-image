@@ -5,15 +5,11 @@ executors:
     environment:
       IMAGE_NAME: joshhsoj1902/circleci-build-image
     docker:
-      - image: joshhsoj1902/circleci-build-image:1.0.8@sha256:87c9fcce5f5474f34407f12640fd89903070e4de467724294e687a4442d2fe0c
+      - image: joshhsoj1902/circleci-build-image:latest
 
 jobs:
   build:
     executor: docker-publisher
-    parameters:
-      push_docker_image:
-        type: boolean
-        default: false
     steps:
       - checkout
       - setup_remote_docker
@@ -73,6 +69,7 @@ workflows:
           filters:
             branches:
               only: master
+      # This doesn't work because the commit doesn't change after tagging, and while CCI knows the tag happened, it doesn't trigger a build.
       - publish-tag:
           requires:
             - build
