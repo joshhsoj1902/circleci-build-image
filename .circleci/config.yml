@@ -1,25 +1,98 @@
-defaults: &defaults 
-    working_directory: ~/build
-    docker: 
-      - image: joshhsoj1902/circleci-build-image:1.0.8@sha256:87c9fcce5f5474f34407f12640fd89903070e4de467724294e687a4442d2fe0c
-remote_docker_version: &remote_docker_version
-    version: 17.11.0-ce
+version: 2.1
 
-version: 2
+executors:
+  docker-publisher:
+    environment:
+      IMAGE_NAME: joshhsoj1902/circleci-build-image
+    docker:
+      - image: joshhsoj1902/circleci-build-image:1.0.8@sha256:87c9fcce5f5474f34407f12640fd89903070e4de467724294e687a4442d2fe0c
+
 jobs:
   build:
-    <<: *defaults
+    executor: docker-publisher
+    parameters:
+      push_docker_image:
+        type: boolean
+        default: false
     steps:
       - checkout
-      - setup_remote_docker:
-          <<: *remote_docker_version
+      - setup_remote_docker
       - run:
           name: "Build image"
           command: |
             make build
+      - run:
+          name: Archive Docker image
+          command: docker save -o image.tar $IMAGE_NAME
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./image.tar
+  publish-latest:
+    executor: docker-publisher
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - setup_remote_docker
+      - run:
+          name: Load archived Docker image
+          command: docker load -i /tmp/workspace/image.tar
+      - run:
+          name: Publish Docker Image to Docker Hub
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            IMAGE_TAG="0.0.${CIRCLE_BUILD_NUM}"
+            docker tag $IMAGE_NAME:latest $IMAGE_NAME:$IMAGE_TAG
+            docker push $IMAGE_NAME:latest
+            docker push $IMAGE_NAME:$IMAGE_TAG
+  publish-tag:
+    executor: docker-publisher
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - setup_remote_docker
+      - run:
+          name: Load archived Docker image
+          command: docker load -i /tmp/workspace/image.tar
+      - run:
+          name: Publish Docker Image to Docker Hub
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+            IMAGE_TAG=${CIRCLE_TAG/v/''}
+            docker tag $IMAGE_NAME:latest $IMAGE_NAME:$IMAGE_TAG
+            docker push $IMAGE_NAME:latest
+            docker push $IMAGE_NAME:$IMAGE_TAG
 workflows:
   version: 2
-  build_and_test:
+  build:
     jobs:
       - build
+  build-master:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: master
+      - publish-latest:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
+  build-tags:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+      - publish-tag:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              ignore: /.*/
 
