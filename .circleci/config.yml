@@ -67,26 +67,12 @@ workflows:
   build:
     jobs:
       - build
-  build-master:
-    jobs:
-      - build:
-          filters:
-            branches:
-              only: master
       - publish-latest:
           requires:
             - build
           filters:
             branches:
               only: master
-  build-tags:
-    jobs:
-      - build:
-          filters:
-            tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
       - publish-tag:
           requires:
             - build
@@ -95,4 +81,3 @@ workflows:
               only: /^v.*/
             branches:
               ignore: /.*/
-
