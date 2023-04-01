@@ -45,6 +45,7 @@ jobs:
   publish-tag:
     executor: docker-publisher
     steps:
+      - checkout
       - setup_remote_docker
       - run:
           name: "Build image"
