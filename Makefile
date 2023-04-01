@@ -1,4 +1,4 @@
 build:
-	docker build -t joshhsoj1902/circleci-build-image .
+	docker build --cache-from  joshhsoj1902/circleci-build-image:latest -t joshhsoj1902/circleci-build-image .
 
 .PHONY: build
