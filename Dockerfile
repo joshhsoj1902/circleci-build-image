@@ -1,4 +1,4 @@
-FROM docker:23.0.1 AS docker
+FROM docker:23.0.6 AS docker
 FROM docker/compose:1.27.4 AS compose
 FROM gcr.io/google.com/cloudsdktool/cloud-sdk:424.0.0-alpine AS google-cloud-sdk
 
