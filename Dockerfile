@@ -2,7 +2,7 @@ FROM docker:24.0.6 AS docker
 FROM docker/compose:1.29.2 AS compose
 FROM gcr.io/google.com/cloudsdktool/cloud-sdk:424.0.0-alpine AS google-cloud-sdk
 
-FROM alpine:3.17
+FROM alpine:3.18
 
 RUN mkdir -p /tmp/workspace \
     && mkdir -p /tmp/logs
