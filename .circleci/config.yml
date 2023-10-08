@@ -71,7 +71,6 @@ workflows:
           filters:
             branches:
               only: master
-      # This doesn't work because the commit doesn't change after tagging, and while CCI knows the tag happened, it doesn't trigger a build.
       - publish-tag:
           filters:
             tags:
