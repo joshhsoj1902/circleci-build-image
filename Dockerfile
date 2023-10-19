@@ -1,6 +1,6 @@
 FROM docker:24.0.6 AS docker
 FROM docker/compose:1.29.2 AS compose
-FROM gcr.io/google.com/cloudsdktool/cloud-sdk:450.0.0-alpine AS google-cloud-sdk
+FROM gcr.io/google.com/cloudsdktool/cloud-sdk:451.0.0-alpine AS google-cloud-sdk
 
 FROM alpine:3.18
 
