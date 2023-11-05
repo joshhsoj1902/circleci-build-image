@@ -20,6 +20,11 @@ jobs:
             docker pull $IMAGE_NAME:latest
             make build
       - run:
+          name: "Publish dev image"
+          command: |
+            docker tag $IMAGE_NAME:latest $IMAGE_NAME:0.0.0-CIRCLE_SHA1
+            docker push  $IMAGE_NAME:0.0.0-CIRCLE_SHA1
+      - run:
           name: Archive Docker image
           command: docker save -o image.tar $IMAGE_NAME
       - persist_to_workspace:
