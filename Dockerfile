@@ -29,8 +29,8 @@ COPY --from=google-cloud-sdk /google-cloud-sdk/bin/ /usr/local/bin/
 COPY --from=google-cloud-sdk /google-cloud-sdk/lib/ /usr/local/lib/
 COPY --from=google-cloud-sdk /google-cloud-sdk/platform/ /usr/local/platform/
 COPY --from=google-cloud-sdk /google-cloud-sdk/.install/ /usr/local/.install/
-COPY --from=node:node /usr/local/bin /usr/local/bin
-COPY --from=node:node /usr/local/lib/node_modules/npm /usr/local/lib/node_modules/npm
+COPY --from=node /usr/local/bin /usr/local/bin
+COPY --from=node /usr/local/lib/node_modules/npm /usr/local/lib/node_modules/npm
 
 RUN curl https://raw.githubusercontent.com/kadwanev/retry/master/retry -o /usr/local/bin/retry \
     && chmod +x /usr/local/bin/retry
