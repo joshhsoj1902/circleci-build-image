@@ -1,6 +1,6 @@
 FROM docker:25.0.0 AS docker
 FROM docker/compose:1.29.2 AS compose
-FROM hairyhenderson/gomplate:v3.11.6 AS gomplate
+FROM hairyhenderson/gomplate:v3.11.7 AS gomplate
 FROM gcr.io/google.com/cloudsdktool/cloud-sdk:460.0.0-alpine AS google-cloud-sdk
 # FROM node:current-alpine3.18 AS node
 
