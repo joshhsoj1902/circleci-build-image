@@ -80,6 +80,7 @@ workflows:
   build:
     jobs:
       - build
+      - test
       - publish-latest:
           requires:
             - build
