@@ -9,6 +9,13 @@ executors:
       - image: joshhsoj1902/circleci-build-image:3.3.0
 
 jobs:
+  test:
+    docker:
+      - image: cimg/base:current
+      - image: redis:latest
+    steps:
+      - run: |
+          sleep 30
   build:
     executor: docker-publisher
     steps:
