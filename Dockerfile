@@ -1,4 +1,4 @@
-FROM docker:25.0.0 AS docker
+FROM docker:26.1.4 AS docker
 FROM docker/compose:1.29.2 AS compose
 FROM hairyhenderson/gomplate:v3.11.7 AS gomplate
 FROM gcr.io/google.com/cloudsdktool/cloud-sdk:473.0.0-alpine AS google-cloud-sdk
